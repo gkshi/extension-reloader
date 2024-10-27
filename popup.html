@@ -1,10 +1,21 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>title</title>
+  <meta charset="UTF-8">
+  <title>Set Hotkey</title>
+  <style>
+      body {
+          width: 200px;
+          font-family: Arial, sans-serif;
+      }
+  </style>
 </head>
 <body>
-<main>
-  popup
-</main>
+<h2>Extension reloader</h2>
+<p>Your hotkey to reload:</p>
+<input type="text" id="hotkey" placeholder="Alt+Shift+R" readonly>
+<button id="save">Save</button>
+
+<script src="popup.js"></script>
 </body>
 </html>

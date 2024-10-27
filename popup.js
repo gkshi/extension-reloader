@@ -1,11 +1,14 @@
 let detectedHotkey = ""; // Хранение текущей комбинации
 
-// Загрузка текущей комбинации при загрузке страницы
+// Загрузка текущего хоткея при открытии popup
 document.addEventListener("DOMContentLoaded", () => {
+  // Получаем сохраненный хоткей из chrome.storage
   chrome.storage.sync.get("hotkey", (data) => {
     if (data.hotkey) {
       detectedHotkey = data.hotkey;
-      document.getElementById("hotkey").value = detectedHotkey;
+      document.getElementById("hotkey").value = detectedHotkey; // Устанавливаем в поле ввода
+    } else {
+      document.getElementById("hotkey").value = "Alt+Shift+R"; // Значение по умолчанию
     }
   });
 });
@@ -18,13 +21,18 @@ document.getElementById("hotkey").addEventListener("focus", () => {
 document.getElementById("hotkey").addEventListener("keydown", (event) => {
   event.preventDefault();
 
+  // Определяем символ для отображения, учитывая модификаторы и буквенные клавиши
+  const key = event.key.length === 1 && /[a-zA-Z]/.test(event.key)
+    ? event.code.replace("Key", "") // Убираем "Key" из `KeyR`, чтобы получить "R"
+    : event.key;
+
   // Формируем строку с комбинацией клавиш
   detectedHotkey = [
     event.ctrlKey ? "Control" : "",
     event.altKey ? "Alt" : "",
     event.shiftKey ? "Shift" : "",
     event.metaKey ? "Meta" : "",
-    event.key.length === 1 ? event.key.toUpperCase() : event.key // Верхний регистр для буквенных клавиш
+    key
   ].filter(Boolean).join("+");
 
   document.getElementById("hotkey").value = detectedHotkey;

@@ -16,5 +16,13 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         chrome.tabs.reload(tabs[0].id);
       }
     });
+
+    // Отправляем уведомление после завершения перезагрузки расширений
+    chrome.notifications.create({
+      type: "basic",
+      iconUrl: "icon.png",
+      title: "Extensions Reloaded",
+      message: "All enabled extensions have been reloaded."
+    });
   }
 });

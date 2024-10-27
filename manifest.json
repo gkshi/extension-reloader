@@ -5,7 +5,8 @@
   "description": "Reloads other extensions with a hotkey.",
   "permissions": [
     "management",
-    "storage"
+    "storage",
+    "notifications"
   ],
   "host_permissions": [
     "*://*/*"
