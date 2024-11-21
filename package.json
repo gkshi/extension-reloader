@@ -1,7 +1,7 @@
 {
   "name": "extension-reloader",
   "version": "1.0.0",
-  "description": "Reloads other extensions with a hotkey",
+  "description": "Reloads your browser extensions via a hotkey",
   "main": "background.js",
   "scripts": {
     "lint": "npx eslint . --fix"
