@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "Extensions auto reloader",
+  "name": "Extensions Auto Reloader",
   "version": "1.0",
   "description": "Reloads your browser extensions with a hotkey.",
   "permissions": [

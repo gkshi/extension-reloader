@@ -1,15 +1,6 @@
 let detectedHotkey = "";
 let hotkeyToShow = "";
 
-// Функция для замены символов в комбинации клавиш
-function replaceSpecialCharacters(key) {
-  const replacements = {
-    '‰': 'R'
-  };
-
-  return replacements[key] || key;
-}
-
 // Определяем комбинацию клавиш при фокусе на поле
 document.getElementById("hotkey").addEventListener("focus", () => {
   // Сброс значения при фокусе
@@ -19,10 +10,10 @@ document.getElementById("hotkey").addEventListener("focus", () => {
 document.getElementById("hotkey").addEventListener("keydown", (event) => {
   event.preventDefault();
 
-  // Определяем символ для отображения, учитывая модификаторы и буквенные клавиши
-  const key = event.key.length === 1 && /[a-zA-Z]/.test(event.key)
-    ? event.code.replace("Key", "") // Убираем "Key" из `KeyR`, чтобы получить "R"
-    : event.key;
+  // Если это буквенная клавиша (например, KeyE)
+  const key = event.code.startsWith("Key")
+    ? event.code.replace("Key", "") // Убираем "Key", оставляя только букву
+    : event.key; // Для остальных клавиш, например, ArrowUp, Enter
 
   // Формируем строку с комбинацией клавиш
   const cleanHotkey = [
@@ -31,10 +22,13 @@ document.getElementById("hotkey").addEventListener("keydown", (event) => {
     event.shiftKey ? "Shift" : "",
     event.metaKey ? "Meta" : "",
     key
-  ].filter(Boolean);
-  detectedHotkey = cleanHotkey.join("+")
-  hotkeyToShow = cleanHotkey.map(replaceSpecialCharacters).join("+");
+  ].filter(Boolean); // Убираем пустые значения
 
+  // Обновляем значения
+  detectedHotkey = cleanHotkey.join("+");
+  hotkeyToShow = detectedHotkey;
+
+  // Отображаем результат в поле
   document.getElementById("hotkey").value = hotkeyToShow;
 });
 
@@ -57,7 +51,7 @@ document.getElementById("save").addEventListener("click", () => {
       type: "basic",
       iconUrl: "images/logo.png",
       title: "Extension Auto Reloader",
-      message: "Settings has been updated.",
+      message: "The settings have been updated.",
       silent: true
     });
 
@@ -83,10 +77,11 @@ document.addEventListener("DOMContentLoaded", () => {
       })
     }
 
+    console.log('##data.hotkey', data.hotkey)
     if (data.hotkey) {
-      detectedHotkey = data.hotkey;
-      hotkeyToShow = data.hotkey.split('+').map(replaceSpecialCharacters).join("+");
-      document.getElementById("hotkey").value = hotkeyToShow; // Устанавливаем в поле ввода
+      // detectedHotkey = data.hotkey;
+      // hotkeyToShow = data.hotkey.split('+').map(replaceSpecialCharacters).join("+");
+      document.getElementById("hotkey").value = data.hotkey;
     }
   })
 });
