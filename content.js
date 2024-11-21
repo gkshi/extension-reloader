@@ -7,6 +7,9 @@ function getCleanKey(event) {
   if (event.code.startsWith("Key")) {
     return event.code.replace("Key", ""); // Для букв возвращаем, например, "R"
   }
+  if (event.ctrlKey || event.shiftKey || event.altKey || event.metaKey || event.ctrlKey) {
+    return ''
+  }
   const specialKeys = {
     Space: "Space",
     ArrowUp: "ArrowUp",
@@ -33,7 +36,8 @@ chrome.runtime.onMessage.addListener((message) => {
 
 // Проверяем комбинацию нажатия клавиш
 document.addEventListener("keydown", (event) => {
-  const cleanKey = getCleanKey(event); // Получаем "чистую" клавишу
+  // Получаем "чистую" клавишу
+  const cleanKey = getCleanKey(event);
 
   // Формируем комбинацию модификаторов и основной клавиши
   const pressedHotkey = [

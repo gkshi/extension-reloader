@@ -1,5 +1,24 @@
 let detectedHotkey = "";
-let hotkeyToShow = "";
+
+// Функция для получения "чистого" названия клавиши
+function getCleanKey(event) {
+  if (event.code.startsWith("Key")) {
+    return event.code.replace("Key", ""); // Для букв возвращаем, например, "R"
+  }
+  if (event.ctrlKey || event.shiftKey || event.altKey || event.metaKey || event.ctrlKey) {
+    return ''
+  }
+  const specialKeys = {
+    Space: "Space",
+    ArrowUp: "ArrowUp",
+    ArrowDown: "ArrowDown",
+    ArrowLeft: "ArrowLeft",
+    ArrowRight: "ArrowRight",
+    Enter: "Enter",
+    Escape: "Escape",
+  };
+  return specialKeys[event.code] || event.key.toUpperCase(); // Для других клавиш
+}
 
 // Определяем комбинацию клавиш при фокусе на поле
 document.getElementById("hotkey").addEventListener("focus", () => {
@@ -10,26 +29,21 @@ document.getElementById("hotkey").addEventListener("focus", () => {
 document.getElementById("hotkey").addEventListener("keydown", (event) => {
   event.preventDefault();
 
-  // Если это буквенная клавиша (например, KeyE)
-  const key = event.code.startsWith("Key")
-    ? event.code.replace("Key", "") // Убираем "Key", оставляя только букву
-    : event.key; // Для остальных клавиш, например, ArrowUp, Enter
+  // Получаем "чистую" клавишу
+  const cleanKey = getCleanKey(event);
 
-  // Формируем строку с комбинацией клавиш
-  const cleanHotkey = [
+  const pressedHotkey = [
     event.ctrlKey ? "Control" : "",
     event.altKey ? "Alt" : "",
     event.shiftKey ? "Shift" : "",
     event.metaKey ? "Meta" : "",
-    key
-  ].filter(Boolean); // Убираем пустые значения
+    cleanKey,
+  ].filter(Boolean).join("+");
 
-  // Обновляем значения
-  detectedHotkey = cleanHotkey.join("+");
-  hotkeyToShow = detectedHotkey;
+  detectedHotkey = pressedHotkey;
 
   // Отображаем результат в поле
-  document.getElementById("hotkey").value = hotkeyToShow;
+  document.getElementById("hotkey").value = pressedHotkey;
 });
 
 document.getElementById("reset").addEventListener('click', () => {
@@ -37,7 +51,6 @@ document.getElementById("reset").addEventListener('click', () => {
   document.getElementById("notifications").checked = true
   document.getElementById("hotkey").value = "";
   detectedHotkey = ''
-  hotkeyToShow = ''
 })
 
 // Сохраняем и отправляем новый хоткей
@@ -77,10 +90,7 @@ document.addEventListener("DOMContentLoaded", () => {
       })
     }
 
-    console.log('##data.hotkey', data.hotkey)
     if (data.hotkey) {
-      // detectedHotkey = data.hotkey;
-      // hotkeyToShow = data.hotkey.split('+').map(replaceSpecialCharacters).join("+");
       document.getElementById("hotkey").value = data.hotkey;
     }
   })
