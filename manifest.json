@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Extensions Auto Reloader",
   "version": "1.0",
-  "description": "Reloads your browser extensions with a hotkey.",
+  "description": "Reloads your browser extensions via a hotkey.",
   "permissions": [
     "tabs",
     "management",
