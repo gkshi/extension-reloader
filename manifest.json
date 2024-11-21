@@ -4,6 +4,7 @@
   "version": "1.0",
   "description": "Reloads your browser extensions with a hotkey.",
   "permissions": [
+    "tabs",
     "management",
     "storage",
     "notifications"
