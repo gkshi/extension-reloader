@@ -1,4 +1,17 @@
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  if (message.action === "update_hotkey") {
+    // Пересылаем сообщение во все вкладки, где загружен content.js
+    chrome.tabs.query({}, (tabs) => {
+      tabs.forEach((tab) => {
+        chrome.tabs.sendMessage(tab.id, message, (response) => {
+          if (chrome.runtime.lastError) {
+            console.warn(`Error sending message to tab ${tab.id}:`, chrome.runtime.lastError.message);
+          }
+        });
+      });
+    });
+  }
+
   if (message.action === "reload_extensions") {
     chrome.management.getAll((extensions) => {
       extensions.forEach((extension) => {
@@ -10,19 +23,25 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       });
     });
 
-    // После завершения перезагрузки расширений, обновляем активную вкладку
-    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-      if (tabs.length > 0) {
-        chrome.tabs.reload(tabs[0].id);
+    chrome.storage.sync.get().then((data) => {
+      if (data.notification) {
+        chrome.notifications.create({
+          type: "basic",
+          iconUrl: "images/logo.png",
+          title: "Extensions Auto Reloader",
+          message: `Extensions have been reloaded.`,
+          silent: true
+        });
       }
-    });
 
-    // Отправляем уведомление после завершения перезагрузки расширений
-    chrome.notifications.create({
-      type: "basic",
-      iconUrl: "icon.png",
-      title: "Extensions Reloaded",
-      message: "All enabled extensions have been reloaded."
-    });
+      if (data.reloadTab) {
+        // После завершения перезагрузки расширений, обновляем активную вкладку
+        chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+          if (tabs.length > 0) {
+            chrome.tabs.reload(tabs[0].id);
+          }
+        });
+      }
+    })
   }
 });

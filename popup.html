@@ -2,20 +2,55 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Set Hotkey</title>
+  <title>Extension Auto Reloader</title>
   <style>
       body {
+          margin: 0;
+          padding: 20px;
           width: 200px;
           font-family: Arial, sans-serif;
+      }
+      h2 {
+          margin: 0 auto 20px;
       }
   </style>
 </head>
 <body>
-<h2>Extension reloader</h2>
-<p>Your hotkey to reload:</p>
-<input type="text" id="hotkey" placeholder="Alt+Shift+R" readonly>
-<button id="save">Save</button>
+<main>
+  <h2>Extensions Auto Reloader</h2>
 
-<script src="popup.js"></script>
+  <section>
+    <span>Hotkey to reload:</span>
+    <div>
+      <input type="text" id="hotkey" placeholder="Alt+Shift+R" readonly>
+    </div>
+    <span>(Focus and press buttons)</span>
+  </section>
+
+  <br>
+
+  <section>
+    <label>
+      <input type="checkbox" id="tab_reload">
+      <span>reload active tab</span>
+    </label>
+  </section>
+
+  <section>
+    <label>
+      <input type="checkbox" id="notifications">
+      <span>show notification after reload</span>
+    </label>
+  </section>
+
+  <br><br/>
+
+  <section>
+    <button id="save">Save</button>
+    <button id="reset">Reset</button>
+  </section>
+</main>
+
+<script src="options.js"></script>
 </body>
 </html>

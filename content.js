@@ -1,7 +1,8 @@
-let customHotkey = "Alt+Shift+R"; // Значение по умолчанию
+// Значение по умолчанию
+let customHotkey = "Alt+Shift+‰"; // Option+Shift+R
 
 // Загрузка сохраненного хоткея при инициализации
-chrome.storage.sync.get("hotkey", (data) => {
+chrome.storage.sync.get((data) => {
   if (data.hotkey) {
     customHotkey = data.hotkey;
   }
@@ -9,21 +10,22 @@ chrome.storage.sync.get("hotkey", (data) => {
 
 // Слушаем сообщение об изменении хоткея и обновляем переменную
 chrome.runtime.onMessage.addListener((message) => {
+  // TODO: этот слушатель не срабатывает
   if (message.action === "update_hotkey") {
-    customHotkey = message.hotkey; // Обновляем значение без повторного объявления
-    console.log("Hotkey updated to:", customHotkey); // Для отладки
+    customHotkey = message.hotkey;
   }
 });
 
 // Проверяем комбинацию нажатия клавиш
 document.addEventListener("keydown", (event) => {
-  const pressedHotkey = [
+  const originalHotkey = [
     event.ctrlKey ? "Control" : "",
     event.altKey ? "Alt" : "",
     event.shiftKey ? "Shift" : "",
     event.metaKey ? "Meta" : "",
     event.key.length === 1 ? event.key.toUpperCase() : event.key
-  ].filter(Boolean).join("+");
+  ].filter(Boolean);
+  const pressedHotkey = originalHotkey.join("+");
 
   if (pressedHotkey.toUpperCase() === customHotkey.toUpperCase()) {
     event.preventDefault();

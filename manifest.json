@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "Extension Reloader",
+  "name": "Extensions auto reloader",
   "version": "1.0",
-  "description": "Reloads other extensions with a hotkey.",
+  "description": "Reloads your browser extensions with a hotkey.",
   "permissions": [
     "management",
     "storage",
@@ -21,7 +21,19 @@
     }
   ],
   "action": {
-    "default_popup": "popup.html"
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "images/logo_alt.png",
+      "32": "images/logo_alt.png",
+      "48": "images/logo_alt.png",
+      "128": "images/logo_alt.png"
+    }
   },
-  "options_page": "options.html"
+  "options_page": "options.html",
+  "icons": {
+    "16": "images/logo.png",
+    "32": "images/logo.png",
+    "48": "images/logo.png",
+    "128": "images/logo.png"
+  }
 }

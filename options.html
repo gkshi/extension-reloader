@@ -5,10 +5,40 @@
   <title>Extension Reloader Settings</title>
 </head>
 <body>
-<h1>Set Custom Hotkey</h1>
-<p>Click in the field below and press your desired hotkey combination.</p>
-<input type="text" id="hotkey" placeholder="Alt+Shift+R" readonly>
-<button id="save">Save</button>
+<main>
+  <h1>Extensions Auto Reloader</h1>
+
+  <section>
+    <span>Hotkey to reload:</span>
+    <div>
+      <input type="text" id="hotkey" placeholder="Alt+Shift+R" readonly>
+    </div>
+    <span>(Focus and press buttons)</span>
+  </section>
+
+  <br>
+
+  <section>
+    <label>
+      <input type="checkbox" id="tab_reload">
+      <span>reload active tab</span>
+    </label>
+  </section>
+
+  <section>
+    <label>
+      <input type="checkbox" id="notifications">
+      <span>show notification after reload</span>
+    </label>
+  </section>
+
+  <br><br/>
+
+  <section>
+    <button id="save">Save</button>
+    <button id="reset">Reset</button>
+  </section>
+</main>
 
 <script src="options.js"></script>
 </body>
