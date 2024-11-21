@@ -1,0 +1,17 @@
+{
+  "name": "extension-reloader",
+  "version": "1.0.0",
+  "description": "Reloads other extensions with a hotkey",
+  "main": "background.js",
+  "scripts": {
+    "lint": "npx eslint . --fix"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@eslint/js": "^9.15.0",
+    "eslint": "^9.15.0",
+    "globals": "^15.12.0"
+  }
+}
